@@ -15,9 +15,25 @@ h4{
     margin: 0;
 }
 
-#exam{
+h1{
+    color: white;
+    text-align: center;
+}
+
+label{
+    color: white;
+    font-weight: bold;
+}
+
+#odpowiedzi{
+    display: flex;
+    flex-direction: row;
+    padding-left: 15%;
+    padding-right: 15%;
+}
+
+#odpowiedzi div{
     margin: auto;
-    width: 80%;
 }
 
 .pytanie{
@@ -33,11 +49,19 @@ select{
     margin-top: 3px;
     font-size: 16px;
     border: 0px;
-    background-color: DodgerBlue;
+    background-color:  DodgerBlue;
     color: white;
     padding: 5px;
 }
+
+select:hover{
+    background-color: rgb(4, 107, 209);
+}
+
+
 form{
+    margin: auto;
+    width: 80%;
     text-align: center;
 }
 

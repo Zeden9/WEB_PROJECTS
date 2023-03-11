@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dodawanie pytań</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <h1>Dodawanie pytań</h1>
@@ -12,21 +13,27 @@
         <form action="" method="post">
             <div id="pytania">
                 <label for="tresc">Treść pytania:</label><br>
-                <textarea name="tresc" id="tresc" required="required" rows="5" cols="50"></textarea><br><br>
-
-                <label for="odpA">Odpowiedź A:</label><br>
-                <input type="text" name="odpA" id="odpA" required="required"><br><br>
-                
-                <label for="odpB">Odpowiedź B:</label><br>
-                <input type="text" name="odpB" id="odpB" required="required"><br><br>
-                
-                <label for="odpC">Odpowiedź C:</label><br>
-                <input type="text" name="odpC" id="odpC" required="required"><br><br>
-                
-                <label for="odpD">Odpowiedź D:</label><br>
-                <input type="text" name="odpD" id="odpD" required="required"><br><br>
+                <textarea name="tresc" id="tresc" required rows="5" cols="50"></textarea><br><br>
             </div>
-            <div id="odp">
+            <div id="odpowiedzi">
+                <div>
+                    <label for="odpA">Odpowiedź A:</label><br>
+                    <textarea type="text" name="odpA" id="odpA" required rows="5" cols="30"></textarea>
+                </div>
+                <div>
+                    <label for="odpB">Odpowiedź B:</label><br>
+                    <textarea type="text" name="odpB" id="odpB" required rows="5" cols="30"></textarea> 
+                </div>
+                <div>    
+                    <label for="odpC">Odpowiedź C:</label><br>
+                    <textarea type="text" name="odpC" id="odpC" required rows="5" cols="30"></textarea>
+                </div>
+                <div>    
+                    <label for="odpD">Odpowiedź D:</label><br>
+                    <textarea type="text" name="odpD" id="odpD" required rows="5" cols="30"></textarea>
+                </div>
+            </div><br>
+            <div id="odpSettings">
                 <label for="prawidlowa">Prawidłowa odpowiedź:</label>
                 <select name="prawidlowa" id="prawidlowa">
                     <option value="0" id="">Odpowiedź A</option>
@@ -45,8 +52,8 @@
                 </select>
             </div>
             <div id="przyciski">
-                <button type="submit">Zatwierdź</button>
-                <button type="reset">Wyczyść</button>
+                <button id="egzsubmit" type="submit">Zatwierdź</button>
+                <button id="egzreset" type="reset">Wyczyść</button>
             </div>
         </form>
     </div>

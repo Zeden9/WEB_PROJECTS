@@ -23,7 +23,7 @@
                     $n++;
                     echo "
                         <div class='pytanie'>
-                            <h4>$n.$rp[1] id:$id</h4>
+                            <h4>$n.$rp[1]</h4>
                             <select name='pyt$n'>";
                     
                     $resultOdpowiedzi = mysqli_query($c, "SELECT id, tresc, poprawnosc, id_pytania FROM odpowiedzi WHERE id_pytania = $id ORDER BY RAND()");
@@ -34,7 +34,7 @@
                         }
                         else $popr = 0;
 
-                        echo"<option value='$popr'>$ro[1] $popr</option>";                            
+                        echo"<option value='$popr'>$ro[1]</option>";                            
                     }
                         
                     echo "</select></div>";
