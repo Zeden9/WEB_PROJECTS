@@ -52,7 +52,6 @@
     </div>
 
     <?php
-    # && isset($_POST['prawidlowa']) && isset($_POST['pkt'])
         if(isset($_POST['odpA'])){
             $odpowiedzi = array();
             $poprawnosc = array(0,0,0,0);
@@ -64,20 +63,12 @@
             $punktacja = $_POST['pkt'];
             
             $c = mysqli_connect("localhost", "root", "", "egzamin");
-            // echo "
-            // Treść: $trescPytania <br>
-            // Odpowiedzi:" . print_r($odpowiedzi) . "<br>
-            // Poprawność:" . print_r($poprawnosc). " <br>
-            // Punktacja: " . print_r($punktacja);
 
             mysqli_query($c, "INSERT INTO `pytania`(`id`, `tresc`, `punktacja`) VALUES (NULL,'$trescPytania','$punktacja')");
             $pytanie = mysqli_query($c, "SELECT MAX(id) FROM pytania;");
             $r = mysqli_fetch_array($pytanie);
             $idPytania = $r[0];
 
-            // echo "$idPytania";
-
-           
             for($i = 0; $i < 4; $i++){
                 $poprawna = $poprawnosc[$i];
                 $odpowiedz = $odpowiedzi[$i];

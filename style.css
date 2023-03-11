@@ -1,3 +1,6 @@
+*{
+    font-family: Arial, Helvetica, sans-serif;
+}
 body{
     background-color: rgb(52, 52, 52);
 }
@@ -10,7 +13,6 @@ body{
 
 h4{
     margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
 }
 
 #exam{
@@ -29,7 +31,6 @@ h4{
 
 select{
     margin-top: 3px;
-    font-family: Arial, Helvetica, sans-serif;
     font-size: 16px;
     border: 0px;
     background-color: DodgerBlue;
@@ -40,7 +41,7 @@ form{
     text-align: center;
 }
 
-.egzbutton{
+button{
     height: 80px;
     width: 190px; 
     font-size: large;
@@ -70,3 +71,9 @@ form{
     background-color: rgb(0, 88, 4);
     border: 2px solid rgb(175, 175, 175);
     }
+
+#summary{
+    color: white;
+    font-weight: bold;
+    font-size: medium;
+}

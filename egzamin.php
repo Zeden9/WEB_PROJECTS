@@ -10,55 +10,63 @@
 </head>
 <body>
     <form action="" method="post">
-        <!-- <div class="pytanie">
-            <h3>Treść pytania</h3>
-            <button type="button" onclick="check(id); this.onclick=null" id="A" class="answer" name="">Odpowiedz</button><br>
-            <button type="button" onclick="" id="B" class="answer" name="">Odpowiedz</button><br>
-            <button type="button" onclick="" id="C" class="answer" name="">Odpowiedz</button><br>
-            <button type="button" onclick="" id="D" class="answer" name="">Odpowiedz</button><br>
-        </div> -->
+
         <div id="exam">
             <?php
                 $c = mysqli_connect("localhost", "root", "", "egzamin");
-                $q = "SELECT pytania.id, pytania.tresc, pytania.punktacja, odpowiedzi.tresc, odpowiedzi.poprawnosc, odpowiedzi.id_pytania FROM `pytania` JOIN odpowiedzi ON pytania.id = odpowiedzi.id_pytania";
-                $pytanie = "SELECT id, tresc, punktacja FROM `pytania`";
+                $pytanie = "SELECT id, tresc, punktacja FROM `pytania` ORDER BY RAND()";
                 $resultPytanie = mysqli_query($c, $pytanie);
-                $n = 1;
+                $n = 0;
 
                 while($rp = mysqli_fetch_row($resultPytanie)){
-                    $n = 1;
                     $id = $rp[0];
+                    $n++;
                     echo "
                         <div class='pytanie'>
                             <h4>$n.$rp[1] id:$id</h4>
-                            <select>";
-                        $n++;
-                        $resultOdpowiedzi = mysqli_query($c, "SELECT id, tresc, poprawnosc, id_pytania FROM odpowiedzi WHERE id_pytania = $id");
-                        while($ro = mysqli_fetch_row($resultOdpowiedzi)){
-                            echo"<option value='$ro[2]'>$ro[1]</option>";                            
+                            <select name='pyt$n'>";
+                    
+                    $resultOdpowiedzi = mysqli_query($c, "SELECT id, tresc, poprawnosc, id_pytania FROM odpowiedzi WHERE id_pytania = $id ORDER BY RAND()");
+                    while($ro = mysqli_fetch_row($resultOdpowiedzi)){
+                        if($ro[2] == 1){
+                            $popr = $rp[2];
+                            $sumaPkt += $popr;
                         }
+                        else $popr = 0;
+
+                        echo"<option value='$popr'>$ro[1] $popr</option>";                            
+                    }
                         
-                        echo "</select></div>";
+                    echo "</select></div>";
 
                 }
-
-                // while($rp = mysqli_fetch_row($resultPytanie)){    
-                //     $i = 0;
-                //     echo "<div class='pytanie'>
-                //     <h4>$n.$rp[0]:</h4>
-                //     <select>";
-                //     $n++;
-                //     while($ro = mysqli_fetch_row($resultOdpowiedzi)){ 
-                //         $i++;
-                //         echo"<option value='$ro[1]'>$ro[0]</option>";
-                //         if($i==4) break; 
-                //     }
-                //     echo"</select></div>";
-                // }
             ?>
         </div>
-        <button class ="egzbutton" id="egzsubmit" type="submit">Zatwierdź odpowiedzi</button>
-        <button class ="egzbutton" id="egzreset" type="reset">Zresetuj egzamin</button>
+        <button id="egzsubmit" name="check" value="submitted" type="submit">Zatwierdź odpowiedzi</button>
+        <button id="egzreset" type="reload">Zresetuj egzamin</button>
+        
     </form>
+
+    <?php
+        if(isset($_POST['check'])){
+            $sumaOdp = $n+1;
+            $zdobytePkt = 0;
+            for($i = 1; $sumaOdp != $i; $i++ ){
+                $pytanie = "pyt".$i;
+                $zdobytePkt += $_POST[$pytanie];
+            } 
+            echo"
+            <div id='summary'>Zdobyte punkty: $zdobytePkt/$sumaPkt </br>
+            ";
+            $wynik = $zdobytePkt/$sumaPkt*100;
+            $wynik = number_format($wynik, 2);
+                if($wynik >= 50){
+                    echo "Gratulacje, zdałeś egzamin z wynikiem $wynik%";
+                }
+                else echo "Niestety, nie udało Ci się zdać egzaminu. Twój wynik to $wynik%";
+
+            echo "</div>";
+        };
+    ?>
 </body>
 </html>
