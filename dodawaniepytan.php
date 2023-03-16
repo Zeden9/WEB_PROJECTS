@@ -82,6 +82,9 @@
                 
                 mysqli_query($c, "INSERT INTO `odpowiedzi`(`id`, `id_pytania`, `tresc`, `poprawnosc`) VALUES (NULL, '$idPytania','$odpowiedz','$poprawna')");
             }
+            
+            mysqli_close($c);
+            
         }
     ?>
 </body>

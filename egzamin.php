@@ -9,21 +9,26 @@
     <script src="main.js"></script>
 </head>
 <body>
-    <form action="" method="post">
+    <form action="wynik.php" method="post">
 
         <div id="exam">
             <?php
+                session_start();
                 $c = mysqli_connect("localhost", "root", "", "egzamin");
                 $pytanie = "SELECT id, tresc, punktacja FROM `pytania` ORDER BY RAND()";
                 $resultPytanie = mysqli_query($c, $pytanie);
                 $n = 0;
-
+                
+                $tresci = array("");
+                $odpowiedzi = array("");
                 while($rp = mysqli_fetch_row($resultPytanie)){
                     $id = $rp[0];
                     $n++;
+                    $tresc = htmlspecialchars($rp[1]);
+                    array_push($tresci, $tresc);
                     echo "
                         <div class='pytanie'>
-                            <h4>$n.$rp[1]</h4>
+                            <h4>$n.$tresc</h4>
                             <select name='pyt$n'>";
                     
                     $resultOdpowiedzi = mysqli_query($c, "SELECT id, tresc, poprawnosc, id_pytania FROM odpowiedzi WHERE id_pytania = $id ORDER BY RAND()");
@@ -31,42 +36,26 @@
                         if($ro[2] == 1){
                             $popr = $rp[2];
                             $sumaPkt += $popr;
+                            array_push($odpowiedzi, $ro[1]);
                         }
                         else $popr = 0;
-
-                        echo"<option value='$popr'>$ro[1]</option>";                            
+                        $tresc = htmlspecialchars($ro[1]);
+                        echo"<option value='$popr'>$tresc</option>";  
+                        $j++;                          
                     }
                         
                     echo "</select></div>";
 
                 }
+                $_SESSION['questionCount'] = $n;
+                $_SESSION['sumaPkt'] = $sumaPkt;
+                $_SESSION['pytania'] = $tresci;
+                $_SESSION['odpowiedzi'] = $odpowiedzi;
+                mysqli_close($c);
             ?>
         </div>
-        <button id="egzsubmit" name="check" value="submitted" type="submit">Zatwierdź odpowiedzi</button>
-        <button id="egzreset" type="reload">Zresetuj egzamin</button>
         
+        <button id="egzsubmit" name="check" value="submitted" type="submit">Zatwierdź odpowiedzi</button>
     </form>
-
-    <?php
-        if(isset($_POST['check'])){
-            $sumaOdp = $n+1;
-            $zdobytePkt = 0;
-            for($i = 1; $sumaOdp != $i; $i++ ){
-                $pytanie = "pyt".$i;
-                $zdobytePkt += $_POST[$pytanie];
-            } 
-            echo"
-            <div id='summary'>Zdobyte punkty: $zdobytePkt/$sumaPkt </br>
-            ";
-            $wynik = $zdobytePkt/$sumaPkt*100;
-            $wynik = number_format($wynik, 2);
-                if($wynik >= 50){
-                    echo "Gratulacje, zdałeś egzamin z wynikiem $wynik%";
-                }
-                else echo "Niestety, nie udało Ci się zdać egzaminu. Twój wynik to $wynik%";
-
-            echo "</div>";
-        };
-    ?>
 </body>
 </html>
